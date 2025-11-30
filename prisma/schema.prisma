@@ -1,0 +1,62 @@
+// Prisma schema for Interactive 3D Furniture Showroom
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// Category - Groups products (e.g., Chairs, Armchairs)
+// ============================================
+model Category {
+  id        String    @id @default(cuid())
+  name      String
+  slug      String    @unique
+  products  Product[]
+}
+
+// ============================================
+// Product - Furniture item with 3D model
+// ============================================
+model Product {
+  id           String    @id @default(cuid())
+  name         String
+  slug         String    @unique
+  description  String
+  categoryId   String
+  modelUrl     String    // GLB/GLTF URL
+  thumbnailUrl String    // Preview image
+  baseColor    String    // e.g. "#ffffff"
+  isFeatured   Boolean   @default(false)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  // Relations
+  category     Category  @relation(fields: [categoryId], references: [id])
+  variants     Variant[]
+
+  @@index([categoryId])
+}
+
+// ============================================
+// Variant - Color/material options for a product
+// ============================================
+model Variant {
+  id         String   @id @default(cuid())
+  productId  String
+  name       String   // e.g. "Dark Green Velvet"
+  colorHex   String   // e.g. "#123456"
+  textureUrl String?  // Optional additional texture
+  isDefault  Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // Relations
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+}
