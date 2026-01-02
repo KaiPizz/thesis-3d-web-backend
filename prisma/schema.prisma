@@ -35,6 +35,14 @@ model Product {
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
 
+  // Specifications (optional physical properties)
+  widthCm      Float?
+  heightCm     Float?
+  depthCm      Float?
+  weightKg     Float?
+  material     String?
+  maxLoadKg    Float?
+
   // Relations
   category     Category  @relation(fields: [categoryId], references: [id])
   variants     Variant[]

@@ -28,29 +28,37 @@ async function main() {
     },
   });
 
-  // Create products with variants
-  // Order on homepage is createdAt DESC, so we set explicit timestamps:
-  // - diningChair: newest (appears first)
-  // - officeChair: second
-  // - velvetArmchair: third
-  // - loungeArmchair: oldest (appears last)
+  const lampCategory = await prisma.category.create({
+    data: {
+      name: 'Lamps',
+      slug: 'lamps',
+    },
+  });
+
   console.log('Creating products and variants...');
 
   const now = new Date();
 
-  // Product 1: Modern Dining Chair (newest - appears first)
+  // Product 1: Modern Dining Chair
   const diningChair = await prisma.product.create({
     data: {
-      name: 'Modern Dining Chair',
-      slug: 'modern-dining-chair',
+      name: 'Wooden Dining Chair',
+      slug: 'wooden-dining-chair',
       description:
-        'Elegant dining chair with clean lines and comfortable seating. Perfect for contemporary dining rooms.',
+        'A handcrafted wooden dining chair featuring traditional carved details, spindle legs, and a warm natural finish.',
       categoryId: chairsCategory.id,
       modelUrl: '/models/dining-chair.glb',
       thumbnailUrl: '/thumbnails/dining-chair.webp',
-      baseColor: '#8B4513',
-      isFeatured: true,
+      baseColor: '#8B5A2B',
+      isFeatured: false,
       createdAt: new Date(now.getTime()),
+      // Specifications
+      widthCm: 45,
+      heightCm: 92,
+      depthCm: 52,
+      weightKg: 5.8,
+      material: 'Solid oak wood',
+      maxLoadKg: 120,
     },
   });
 
@@ -58,26 +66,26 @@ async function main() {
     data: [
       {
         productId: diningChair.id,
-        name: 'Natural Oak',
-        colorHex: '#D4A574',
+        name: 'Warm Walnut',
+        colorHex: '#8B5A2B',
         isDefault: true,
       },
       {
         productId: diningChair.id,
-        name: 'Walnut Brown',
-        colorHex: '#5C4033',
+        name: 'Dark Mahogany',
+        colorHex: '#4A2C1D',
         isDefault: false,
       },
       {
         productId: diningChair.id,
-        name: 'Charcoal Black',
-        colorHex: '#2C2C2C',
+        name: 'Charred Ash',
+        colorHex: '#2C2A28',
         isDefault: false,
       },
     ],
   });
 
-  // Product 2: Ergonomic Office Chair (second)
+  // Product 2: Ergonomic Office Chair 
   const officeChair = await prisma.product.create({
     data: {
       name: 'Ergonomic Office Chair',
@@ -87,9 +95,16 @@ async function main() {
       categoryId: chairsCategory.id,
       modelUrl: '/models/office-chair.glb',
       thumbnailUrl: '/thumbnails/office-chair.webp',
-      baseColor: '#1A1A1A',
+      baseColor: '#4A4F57',
       isFeatured: true,
-      createdAt: new Date(now.getTime() - 1 * 60 * 60 * 1000), // 1 hour ago
+      createdAt: new Date(now.getTime()),
+      // Specifications
+      widthCm: 68,
+      heightCm: 115,
+      depthCm: 70,
+      weightKg: 14.5,
+      material: 'Mesh fabric, aluminum frame',
+      maxLoadKg: 150,
     },
   });
 
@@ -97,8 +112,8 @@ async function main() {
     data: [
       {
         productId: officeChair.id,
-        name: 'Midnight Black',
-        colorHex: '#1A1A1A',
+        name: 'Storm Gray',
+        colorHex: '#4A4F57',
         isDefault: true,
       },
       {
@@ -107,10 +122,16 @@ async function main() {
         colorHex: '#6B7280',
         isDefault: false,
       },
+      {
+        productId: officeChair.id,
+        name: 'Arctic White',
+        colorHex: '#E6E8EB',
+        isDefault: false,
+      },
     ],
   });
 
-  // Product 3: Classic Velvet Armchair (third)
+  // Product 3: Classic Velvet Armchair 
   const velvetArmchair = await prisma.product.create({
     data: {
       name: 'Classic Velvet Armchair',
@@ -120,9 +141,15 @@ async function main() {
       categoryId: armchairsCategory.id,
       modelUrl: '/models/velvet-armchair.glb',
       thumbnailUrl: '/thumbnails/velvet-armchair.webp',
-      baseColor: '#2D5A4A',
+      baseColor: '#6E7745',
       isFeatured: true,
-      createdAt: new Date(now.getTime() - 2 * 60 * 60 * 1000), // 2 hours ago
+      createdAt: new Date(now.getTime()),
+      // Specifications
+      widthCm: 78,
+      heightCm: 85,
+      depthCm: 82,
+      weightKg: 22,
+      material: 'Velvet upholstery, beech wood legs',
     },
   });
 
@@ -130,26 +157,26 @@ async function main() {
     data: [
       {
         productId: velvetArmchair.id,
-        name: 'Emerald Green',
-        colorHex: '#2D5A4A',
+        name: 'Olive Moss',
+        colorHex: '#6E7745',
         isDefault: true,
       },
       {
         productId: velvetArmchair.id,
-        name: 'Royal Blue',
-        colorHex: '#1E3A5F',
+        name: 'Charcoal Velvet',
+        colorHex: '#2B2D30',
         isDefault: false,
       },
       {
         productId: velvetArmchair.id,
-        name: 'Burgundy Red',
-        colorHex: '#722F37',
+        name: 'Graphite Gray',
+        colorHex: '#4F5450',
         isDefault: false,
       },
     ],
   });
 
-  // Product 4: Scandinavian Lounge Armchair (oldest - appears last)
+  // Product 4: Scandinavian Lounge Armchair
   const loungeArmchair = await prisma.product.create({
     data: {
       name: 'Scandinavian Lounge Armchair',
@@ -159,9 +186,15 @@ async function main() {
       categoryId: armchairsCategory.id,
       modelUrl: '/models/lounge-armchair.glb',
       thumbnailUrl: '/thumbnails/lounge-armchair.webp',
-      baseColor: '#E8DCC4',
-      isFeatured: true,
-      createdAt: new Date(now.getTime() - 3 * 60 * 60 * 1000), // 3 hours ago
+      baseColor: '#315fb5',
+      isFeatured: false,
+      createdAt: new Date(now.getTime()),
+      // Specifications
+      widthCm: 72,
+      heightCm: 76,
+      depthCm: 80,
+      weightKg: 18,
+      material: 'Cotton-linen blend, ash wood frame',
     },
   });
 
@@ -169,21 +202,79 @@ async function main() {
     data: [
       {
         productId: loungeArmchair.id,
-        name: 'Cream White',
-        colorHex: '#E8DCC4',
+        name: 'Royal Azure',
+        colorHex: '#315fb5',
         isDefault: true,
       },
       {
         productId: loungeArmchair.id,
-        name: 'Light Gray',
-        colorHex: '#B8B8B8',
+        name: 'Rustic Copper',
+        colorHex: '#a15012',
         isDefault: false,
       },
+    ],
+  });
+
+  // Product 5: Dog Lamp
+  const bigDogLamp = await prisma.product.create({
+    data: {
+      name: 'Big Dog Lamp',                   
+      slug: 'big-dog-lamp',                   
+      description: 'A modern sculptural floor lamp featuring a sleek matte-black dog silhouette with a minimalist lampshade.',
+      categoryId: lampCategory.id,           
+      modelUrl: '/models/big-dog-lamp.glb',        
+      thumbnailUrl: '/thumbnails/big-dog-lamp.webp',
+      baseColor: '#000000',                  
+      isFeatured: true,                       
+      createdAt: new Date(now.getTime()),
+      // Specifications
+      widthCm: 35,
+      heightCm: 145,
+      depthCm: 40,
+      weightKg: 6.2,
+      material: 'Resin body, fabric lampshade',
+    },
+  });
+
+  await prisma.variant.createMany({
+    data: [
       {
-        productId: loungeArmchair.id,
-        name: 'Soft Pink',
-        colorHex: '#E8C4C4',
-        isDefault: false,
+        productId: bigDogLamp.id,
+        name: 'Black',                  
+        colorHex: '#000000',                   
+        isDefault: true,                       
+      },
+    ],
+  });
+    
+  // Product 6: Small Dog Lamp
+  const smallDogLamp = await prisma.product.create({
+    data: {
+      name: 'Small Dog Lamp',                   
+      slug: 'small-dog-lamp',                   
+      description: 'A quirky black dog-shaped table lamp featuring a matte sculpture-style body, a black fabric lampshade, and a playful poop-shaped power switch.',
+      categoryId: lampCategory.id,           
+      modelUrl: '/models/small-dog-lamp.glb',        
+      thumbnailUrl: '/thumbnails/small-dog-lamp.webp',
+      baseColor: '#000000',                  
+      isFeatured: true,                       
+      createdAt: new Date(now.getTime()),
+      // Specifications
+      widthCm: 18,
+      heightCm: 42,
+      depthCm: 22,
+      weightKg: 1.8,
+      material: 'Resin body, fabric lampshade',
+    },
+  });
+
+  await prisma.variant.createMany({
+    data: [
+      {
+        productId: smallDogLamp.id,
+        name: 'Black',                  
+        colorHex: '#000000',                   
+        isDefault: false,                       
       },
     ],
   });
