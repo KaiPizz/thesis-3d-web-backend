@@ -13,39 +13,42 @@ datasource db {
 // Category - Groups products (e.g., Chairs, Armchairs)
 // ============================================
 model Category {
-  id        String    @id @default(cuid())
-  name      String
-  slug      String    @unique
-  products  Product[]
+  id       String    @id @default(cuid())
+  name     String
+  slug     String    @unique
+  products Product[]
 }
 
 // ============================================
 // Product - Furniture item with 3D model
 // ============================================
 model Product {
-  id           String    @id @default(cuid())
-  name         String
-  slug         String    @unique
-  description  String
-  categoryId   String
-  modelUrl     String    // GLB/GLTF URL
-  thumbnailUrl String    // Preview image
-  baseColor    String    // e.g. "#ffffff"
-  isFeatured   Boolean   @default(false)
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  id               String   @id @default(cuid())
+  name             String
+  slug             String   @unique
+  description      String
+  categoryId       String
+  modelUrl         String // GLB/GLTF URL
+  thumbnailUrl     String // Preview image
+  baseColor        String? // e.g. "#ffffff" - optional for models using original textures
+  useOriginalColor     Boolean @default(false) // If true, don't apply color tinting to the 3D model
+  originalColorName    String? // Display name for original color option
+  originalColorPreview String? // Preview color/gradient for the button
+  isFeatured       Boolean  @default(false)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
   // Specifications (optional physical properties)
-  widthCm      Float?
-  heightCm     Float?
-  depthCm      Float?
-  weightKg     Float?
-  material     String?
-  maxLoadKg    Float?
+  widthCm   Float?
+  heightCm  Float?
+  depthCm   Float?
+  weightKg  Float?
+  material  String?
+  maxLoadKg Float?
 
   // Relations
-  category     Category  @relation(fields: [categoryId], references: [id])
-  variants     Variant[]
+  category Category  @relation(fields: [categoryId], references: [id])
+  variants Variant[]
 
   @@index([categoryId])
 }
@@ -56,15 +59,15 @@ model Product {
 model Variant {
   id         String   @id @default(cuid())
   productId  String
-  name       String   // e.g. "Dark Green Velvet"
-  colorHex   String   // e.g. "#123456"
-  textureUrl String?  // Optional additional texture
+  name       String // e.g. "Dark Green Velvet"
+  colorHex   String // e.g. "#123456"
+  textureUrl String? // Optional additional texture
   isDefault  Boolean  @default(false)
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
   // Relations
-  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   @@index([productId])
 }

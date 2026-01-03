@@ -19,7 +19,7 @@ export async function getAllProductsWithDefaultVariant() {
       },
     },
     orderBy: {
-      createdAt: 'desc',
+      createdAt: 'asc',
     },
   });
 

@@ -35,11 +35,32 @@ async function main() {
     },
   });
 
+  const tablesCategory = await prisma.category.create({
+    data: {
+      name: "Tables",
+      slug: "tables",
+    },
+  });
+
+  const sculpturesCategory = await prisma.category.create({
+    data: {
+      name: "Sculptures",
+      slug: "sculptures",
+    },
+  });
+
+  const desksCategory = await prisma.category.create({
+    data: {
+      name: "Desks",
+      slug: "desks",
+    },
+  });  
+  
   console.log('Creating products and variants...');
 
   const now = new Date();
 
-  // Product 1: Modern Dining Chair
+  // Product 1: Wooden Dining Chair
   const diningChair = await prisma.product.create({
     data: {
       name: 'Wooden Dining Chair',
@@ -74,12 +95,6 @@ async function main() {
         productId: diningChair.id,
         name: 'Dark Mahogany',
         colorHex: '#4A2C1D',
-        isDefault: false,
-      },
-      {
-        productId: diningChair.id,
-        name: 'Charred Ash',
-        colorHex: '#2C2A28',
         isDefault: false,
       },
     ],
@@ -122,12 +137,6 @@ async function main() {
         colorHex: '#6B7280',
         isDefault: false,
       },
-      {
-        productId: officeChair.id,
-        name: 'Arctic White',
-        colorHex: '#E6E8EB',
-        isDefault: false,
-      },
     ],
   });
 
@@ -141,7 +150,9 @@ async function main() {
       categoryId: armchairsCategory.id,
       modelUrl: '/models/velvet-armchair.glb',
       thumbnailUrl: '/thumbnails/velvet-armchair.webp',
-      baseColor: '#6E7745',
+      useOriginalColor: true,
+      originalColorName: 'Moss Green',
+      originalColorPreview: '#83844B',
       isFeatured: true,
       createdAt: new Date(now.getTime()),
       // Specifications
@@ -163,12 +174,6 @@ async function main() {
       },
       {
         productId: velvetArmchair.id,
-        name: 'Charcoal Velvet',
-        colorHex: '#2B2D30',
-        isDefault: false,
-      },
-      {
-        productId: velvetArmchair.id,
         name: 'Graphite Gray',
         colorHex: '#4F5450',
         isDefault: false,
@@ -186,7 +191,7 @@ async function main() {
       categoryId: armchairsCategory.id,
       modelUrl: '/models/lounge-armchair.glb',
       thumbnailUrl: '/thumbnails/lounge-armchair.webp',
-      baseColor: '#315fb5',
+      baseColor: '#C7C4BD',
       isFeatured: false,
       createdAt: new Date(now.getTime()),
       // Specifications
@@ -204,13 +209,13 @@ async function main() {
         productId: loungeArmchair.id,
         name: 'Royal Azure',
         colorHex: '#315fb5',
-        isDefault: true,
+        isDefault: false,
       },
       {
         productId: loungeArmchair.id,
-        name: 'Rustic Copper',
-        colorHex: '#a15012',
-        isDefault: false,
+        name: 'Mushroom Grey',
+        colorHex: '#C7C4BD',
+        isDefault: true,
       },
     ],
   });
@@ -224,7 +229,7 @@ async function main() {
       categoryId: lampCategory.id,           
       modelUrl: '/models/big-dog-lamp.glb',        
       thumbnailUrl: '/thumbnails/big-dog-lamp.webp',
-      baseColor: '#000000',                  
+      baseColor: '#000000',   
       isFeatured: true,                       
       createdAt: new Date(now.getTime()),
       // Specifications
@@ -234,17 +239,6 @@ async function main() {
       weightKg: 6.2,
       material: 'Resin body, fabric lampshade',
     },
-  });
-
-  await prisma.variant.createMany({
-    data: [
-      {
-        productId: bigDogLamp.id,
-        name: 'Black',                  
-        colorHex: '#000000',                   
-        isDefault: true,                       
-      },
-    ],
   });
     
   // Product 6: Small Dog Lamp
@@ -256,8 +250,8 @@ async function main() {
       categoryId: lampCategory.id,           
       modelUrl: '/models/small-dog-lamp.glb',        
       thumbnailUrl: '/thumbnails/small-dog-lamp.webp',
-      baseColor: '#000000',                  
-      isFeatured: true,                       
+      useOriginalColor: true,           
+      isFeatured: false,                       
       createdAt: new Date(now.getTime()),
       // Specifications
       widthCm: 18,
@@ -268,16 +262,175 @@ async function main() {
     },
   });
 
-  await prisma.variant.createMany({
-    data: [
-      {
-        productId: smallDogLamp.id,
-        name: 'Black',                  
-        colorHex: '#000000',                   
-        isDefault: false,                       
-      },
-    ],
-  });
+
+  // Product 7 — Gray Fabric Armchair
+const grayArmchair = await prisma.product.create({
+  data: {
+    name: "Fabric Armchair",
+    slug: "fabric-armchair",
+    description:
+      "A modern fabric armchair featuring a softly contoured seat, angled armrests, and slim wooden legs. Designed for comfort and everyday use, it fits naturally into contemporary and Scandinavian-style interiors.",
+    modelUrl: "/models/fabric-armchair.glb",
+    thumbnailUrl: "/thumbnails/fabric-armchair.webp",
+    baseColor: "#8A8A8A",
+    isFeatured: false,
+    widthCm: 72,
+    heightCm: 78,
+    depthCm: 74,
+    weightKg: 14,
+    material: "Fabric upholstery, wooden legs",
+    maxLoadKg: 120,
+    categoryId: armchairsCategory.id,
+  },
+});
+
+await prisma.variant.createMany({
+  data: [
+    {
+      name: "Gray",
+      colorHex: "#8A8A8A",
+      isDefault: true,
+      productId: grayArmchair.id,
+    },
+    {
+      name: "Blue Gray",
+      colorHex: "#7393B3",
+      isDefault: false,
+      productId: grayArmchair.id,
+    },
+  ],
+});
+
+// Product 8 — Wooden Coffee Table
+const woodenCoffeeTable = await prisma.product.create({
+  data: {
+    name: "Wooden Coffee Table",
+    slug: "wooden-coffee-table",
+    description:
+      "A modern coffee table featuring a light wood tabletop with a geometric profile and a solid black metal base. Its clean, minimalist design fits contemporary interiors and works well as a central living-room surface.",
+    modelUrl: "/models/classic-table.glb",
+    thumbnailUrl: "/thumbnails/classic-table.webp",
+    baseColor: "#C9A574",
+    isFeatured: false,
+    widthCm: 120,
+    heightCm: 42,
+    depthCm: 60,
+    weightKg: 22,
+    material: "Wood tabletop, metal base",
+    maxLoadKg: 60,
+    categoryId: tablesCategory.id,
+  },
+});
+
+// Variants — Product 8
+await prisma.variant.createMany({
+  data: [
+    {
+      name: "Light Oak",
+      colorHex: "#C9A574",
+      isDefault: true,
+      productId: woodenCoffeeTable.id,
+    },
+    {
+      name: "Walnut",
+      colorHex: "#8B5E3C",
+      isDefault: false,
+      productId: woodenCoffeeTable.id,
+    },
+  ],
+});
+
+  // Product 9 — Musa (Raw Musa Series) — Birgit Piskor
+const musaSculpture = await prisma.product.create({
+  data: {
+    name: "Piskor Sculpture",
+    slug: "piskor-sculpture",
+    description:
+      "Piskor is a sculpture by Birgit Piskor from the Raw Musa Series. A tall, abstract standing form designed as a statement piece for modern interiors.",
+    modelUrl: "/models/piskor-sculpture.glb",
+    thumbnailUrl: "/thumbnails/piskor-sculpture.webp",
+    baseColor: "#252525",
+    isFeatured: true,
+    widthCm: 53.34,
+    heightCm: 205.74,
+    depthCm: 12.7,
+    weightKg: 35, 
+    material: "Sculpture (series: Raw Musa)",
+    categoryId: sculpturesCategory.id,
+  },
+});
+
+// Variants — Product 9
+await prisma.variant.createMany({
+  data: [
+    {
+      name: "White",
+      colorHex: "#FFFFFF",
+      isDefault: false,
+      productId: musaSculpture.id,
+    },
+    {
+      name: "Jet Black",
+      colorHex: "#252525",
+      isDefault: true,
+      productId: musaSculpture.id,
+    },
+  ],
+});
+
+// Product 10 — Coffee Table Jais
+const coffeeTableJais = await prisma.product.create({
+  data: {
+    name: "Coffee Table Jais",
+    slug: "coffee-table-jais",
+    description:
+      "Crafted with meticulous attention to detail, the Jais coffee table is designed to complement and contrast with its surroundings. A modern composition of metal, brass accents, wood, and marble-like stone surfaces, balancing strength, warmth, and elegance.",
+    modelUrl: "/models/jais-table.glb",
+    thumbnailUrl: "/thumbnails/jais-table.webp",
+    useOriginalColor: true,
+    isFeatured: true,
+    widthCm: 130,
+    depthCm: 68.5,
+    heightCm: 20,
+    weightKg: 28,
+    material: "Metal, stone, wood, brass accents",
+    categoryId: tablesCategory.id,
+  },
+});
+
+// Product 11 — Xander Desk
+const xanderDesk = await prisma.product.create({
+  data: {
+    name: "Xander Desk",
+    slug: "xander-desk",
+    description:
+      "With its commanding presence and sculptural lines, Xander is more than a desk — it’s the centerpiece of a creative workspace. Crafted with fine oak veneer and designed to balance elegance and function, its fluid silhouette provides ample surface area for focused work and collaborative moments.",
+    modelUrl: "/models/xander-desk.glb",
+    thumbnailUrl: "/thumbnails/xander-desk.webp",
+    //baseColor: "#6B442A",
+    useOriginalColor: true,
+    originalColorName: "American Walnut",
+    originalColorPreview: "#6B442A",
+    isFeatured: true,
+    widthCm: 217,
+    depthCm: 180,
+    heightCm: 82,
+    weightKg: 55,
+    material: "Oak veneer (stained finish)",
+    categoryId: desksCategory.id,
+  },
+});
+
+await prisma.variant.createMany({
+  data: [
+    {
+      name: "Dark Walnut",
+      colorHex: "#3A2619",
+      isDefault: false,
+      productId: xanderDesk.id,
+    }
+  ],
+});
 
   // Summary
   const productCount = await prisma.product.count();
