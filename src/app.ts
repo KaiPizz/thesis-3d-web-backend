@@ -4,30 +4,27 @@ import routes from './routes';
 
 const app = express();
 
-// CORS configuration for production
+// CORS configuration
 const allowedOrigins = [
-  'http://localhost:5173',           // Local development
-  'http://localhost:4173',           // Local preview
-  'https://kaipizz.github.io'        // GitHub Pages production
+  'http://localhost:5173',
+  'http://localhost:4173',
+  'https://kaipizz.github.io'
 ];
 
 app.use(cors({
-  origin: (origin, callback) => {
-    // Allow requests with no origin (like mobile apps, Postman, curl)
-    if (!origin) return callback(null, true);
-    
-    if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error(`Origin ${origin} not allowed by CORS`));
-    }
-  },
+  origin: allowedOrigins,
   credentials: true
 }));
 
-app.use(express.json());
+// Disable caching for API responses
+app.use((req, res, next) => {
+  res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+  res.set('Pragma', 'no-cache');
+  res.set('Expires', '0');
+  next();
+});
 
-// Routes
+app.use(express.json());
 app.use(routes);
 
 export default app;
