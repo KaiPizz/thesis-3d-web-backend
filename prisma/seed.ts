@@ -68,7 +68,7 @@ async function main() {
       description:
         'A handcrafted wooden dining chair featuring traditional carved details, spindle legs, and a warm natural finish.',
       categoryId: chairsCategory.id,
-      modelUrl: '/models/dining-chair.glb',
+      modelUrl: 'models/dining-chair.glb',
       thumbnailUrl: '/thumbnails/dining-chair.webp',
       baseColor: '#8B5A2B',
       isFeatured: false,
@@ -108,7 +108,7 @@ async function main() {
       description:
         'Professional ergonomic chair with lumbar support and adjustable armrests. Designed for long work sessions.',
       categoryId: chairsCategory.id,
-      modelUrl: '/models/office-chair.glb',
+      modelUrl: 'models/office-chair.glb',
       thumbnailUrl: '/thumbnails/office-chair.webp',
       baseColor: '#4A4F57',
       isFeatured: true,
@@ -148,7 +148,7 @@ async function main() {
       description:
         'Luxurious velvet armchair with deep cushioning and elegant curved arms. A statement piece for any living room.',
       categoryId: armchairsCategory.id,
-      modelUrl: '/models/velvet-armchair.glb',
+      modelUrl: 'models/velvet-armchair.glb',
       thumbnailUrl: '/thumbnails/velvet-armchair.webp',
       useOriginalColor: true,
       originalColorName: 'Moss Green',
@@ -189,7 +189,7 @@ async function main() {
       description:
         'Minimalist Scandinavian design with natural wood frame and premium fabric upholstery. Timeless comfort meets modern aesthetics.',
       categoryId: armchairsCategory.id,
-      modelUrl: '/models/lounge-armchair.glb',
+      modelUrl: 'models/lounge-armchair.glb',
       thumbnailUrl: '/thumbnails/lounge-armchair.webp',
       baseColor: '#C7C4BD',
       isFeatured: false,
@@ -227,7 +227,7 @@ async function main() {
       slug: 'big-dog-lamp',                   
       description: 'A modern sculptural floor lamp featuring a sleek matte-black dog silhouette with a minimalist lampshade.',
       categoryId: lampCategory.id,           
-      modelUrl: '/models/big-dog-lamp.glb',        
+      modelUrl: 'models/big-dog-lamp.glb',        
       thumbnailUrl: '/thumbnails/big-dog-lamp.webp',
       baseColor: '#000000',   
       isFeatured: true,                       
@@ -248,7 +248,7 @@ async function main() {
       slug: 'small-dog-lamp',                   
       description: 'A quirky black dog-shaped table lamp featuring a matte sculpture-style body, a black fabric lampshade, and a playful poop-shaped power switch.',
       categoryId: lampCategory.id,           
-      modelUrl: '/models/small-dog-lamp.glb',        
+      modelUrl: 'models/small-dog-lamp.glb',        
       thumbnailUrl: '/thumbnails/small-dog-lamp.webp',
       useOriginalColor: true,           
       isFeatured: false,                       
@@ -270,7 +270,7 @@ const grayArmchair = await prisma.product.create({
     slug: "fabric-armchair",
     description:
       "A modern fabric armchair featuring a softly contoured seat, angled armrests, and slim wooden legs. Designed for comfort and everyday use, it fits naturally into contemporary and Scandinavian-style interiors.",
-    modelUrl: "/models/fabric-armchair.glb",
+    modelUrl: "models/fabric-armchair.glb",
     thumbnailUrl: "/thumbnails/fabric-armchair.webp",
     baseColor: "#8A8A8A",
     isFeatured: false,
@@ -308,7 +308,7 @@ const woodenCoffeeTable = await prisma.product.create({
     slug: "wooden-coffee-table",
     description:
       "A modern coffee table featuring a light wood tabletop with a geometric profile and a solid black metal base. Its clean, minimalist design fits contemporary interiors and works well as a central living-room surface.",
-    modelUrl: "/models/classic-table.glb",
+    modelUrl: "models/classic-table.glb",
     thumbnailUrl: "/thumbnails/classic-table.webp",
     baseColor: "#C9A574",
     isFeatured: false,
@@ -347,7 +347,7 @@ const musaSculpture = await prisma.product.create({
     slug: "piskor-sculpture",
     description:
       "Piskor is a sculpture by Birgit Piskor from the Raw Musa Series. A tall, abstract standing form designed as a statement piece for modern interiors.",
-    modelUrl: "/models/piskor-sculpture.glb",
+    modelUrl: "models/piskor-sculpture.glb",
     thumbnailUrl: "/thumbnails/piskor-sculpture.webp",
     baseColor: "#252525",
     isFeatured: true,
@@ -385,7 +385,7 @@ const coffeeTableJais = await prisma.product.create({
     slug: "coffee-table-jais",
     description:
       "Crafted with meticulous attention to detail, the Jais coffee table is designed to complement and contrast with its surroundings. A modern composition of metal, brass accents, wood, and marble-like stone surfaces, balancing strength, warmth, and elegance.",
-    modelUrl: "/models/jais-table.glb",
+    modelUrl: "models/jais-table.glb",
     thumbnailUrl: "/thumbnails/jais-table.webp",
     useOriginalColor: true,
     isFeatured: true,
@@ -405,7 +405,7 @@ const xanderDesk = await prisma.product.create({
     slug: "xander-desk",
     description:
       "With its commanding presence and sculptural lines, Xander is more than a desk — it’s the centerpiece of a creative workspace. Crafted with fine oak veneer and designed to balance elegance and function, its fluid silhouette provides ample surface area for focused work and collaborative moments.",
-    modelUrl: "/models/xander-desk.glb",
+    modelUrl: "models/xander-desk.glb",
     thumbnailUrl: "/thumbnails/xander-desk.webp",
     //baseColor: "#6B442A",
     useOriginalColor: true,
