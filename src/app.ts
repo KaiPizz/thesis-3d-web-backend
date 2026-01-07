@@ -8,7 +8,8 @@ const app = express();
 const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:4173',
-  'https://kaipizz.github.io'
+  'https://kaipizz.github.io',
+  'https://vistaloom.vercel.app'
 ];
 
 app.use(cors({
