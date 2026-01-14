@@ -3,6 +3,7 @@ import {
   createProduct as createProductService,
   updateProduct as updateProductService,
   deleteProduct as deleteProductService,
+  getAllProductsWithAllVariants,
 } from '../../services/productService';
 
 const REQUIRED_PRODUCT_FIELDS = [
@@ -14,6 +15,20 @@ const REQUIRED_PRODUCT_FIELDS = [
   'thumbnailUrl',
   'baseColor',
 ] as const;
+
+/**
+ * GET /api/admin/products
+ * Get all products with all variants (for admin panel)
+ */
+export async function getProducts(req: Request, res: Response) {
+  try {
+    const products = await getAllProductsWithAllVariants();
+    res.json(products);
+  } catch (error) {
+    console.error('Error fetching products:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
 
 /**
  * POST /api/admin/products

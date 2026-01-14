@@ -118,9 +118,26 @@ export async function updateProduct(id: string, data: UpdateProductData) {
   return product;
 }
 
-/**
- * Delete a product and all its variants (cascade via schema)
- */
+/* Get all products with all variants (for admin panel) */
+export async function getAllProductsWithAllVariants() {
+  const products = await prisma.product.findMany({
+    include: {
+      category: true,
+      variants: {
+        orderBy: {
+          isDefault: 'desc', // Default variant first
+        },
+      },
+    },
+    orderBy: {
+      createdAt: 'asc',
+    },
+  });
+
+  return products;
+}
+
+/* Delete a product and all its variants (cascade via schema)*/
 export async function deleteProduct(id: string) {
   const product = await prisma.product.delete({
     where: { id },

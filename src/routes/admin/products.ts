@@ -1,11 +1,15 @@
 import { Router } from 'express';
 import {
+  getProducts,
   createProduct,
   updateProduct,
   deleteProduct,
 } from '../../controllers/admin/productAdminController';
 
 const router = Router();
+
+// GET /api/admin/products - Get all products with all variants
+router.get('/', getProducts);
 
 // POST /api/admin/products - Create a new product
 router.post('/', createProduct);
